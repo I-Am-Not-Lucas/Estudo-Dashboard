@@ -79,7 +79,7 @@ fig_receita_categorias.update_layout(yaxis_title = "Receita")
 vendedores = pd.DataFrame(dados.groupby("Vendedor")["Preço"].agg(["sum", "count"]))
 
 ## Visualizacao no streamlit
-aba1, aba2, aba3 = st.tabs(["Receita", "Quantidade de vendas", "Vendedores"])
+aba1, aba2= st.tabs(["Receita", "Vendedores"])
 
 coluna1, coluna2 = st.columns(2)
 
@@ -94,13 +94,6 @@ with aba1:
         st.plotly_chart(fig_receita_categorias,use_container_width=True)
 
 with aba2:
-    with coluna1:
-        st.metric("Receita", formata_numero(dados["Preço"].sum(), "R$"))
-        
-    with coluna2:
-        st.metric("Quantidade vendas", formata_numero(dados.shape[0]))
-
-with aba3:
     #min vendedores que aparece, max, default
     qtd_vendedores = st.number_input("Quantidade de vendedores: ", 2, 10,5)
     
