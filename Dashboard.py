@@ -81,9 +81,9 @@ vendedores = pd.DataFrame(dados.groupby("Vendedor")["Preço"].agg(["sum", "count
 ## Visualizacao no streamlit
 aba1, aba2= st.tabs(["Receita", "Vendedores"])
 
-coluna1, coluna2 = st.columns(2)
 
 with aba1:
+    coluna1, coluna2 = st.columns(2)
     with coluna1:
         st.metric("Receita", formata_numero(dados["Preço"].sum(), "R$"))
         st.plotly_chart(fig_mapa_receita, use_container_width=True)
@@ -94,27 +94,25 @@ with aba1:
         st.plotly_chart(fig_receita_categorias,use_container_width=True)
 
 with aba2:
-    #min vendedores que aparece, max, default
-    qtd_vendedores = st.number_input("Quantidade de vendedores: ", 2, 10,5)
-    
+    qtd_vendedores = st.number_input('Quantidade de vendedores', 2, 10, 5)
+    coluna1, coluna2 = st.columns(2)
     with coluna1:
-        st.metric("Receita", formata_numero(dados["Preço"].sum(), "R$"))
-        fig_receita_vendedores = px.bar(vendedores[["sum"]].sort_values("sum", ascending=False).head(qtd_vendedores),
-                                       x="sum",
-                                       y=vendedores[["sum"]].sort_values("sum", ascending=False).head(qtd_vendedores).index,
-                                       text_auto=True,
-                                       title= f'Top {qtd_vendedores} vendedores (Receita)')
-        st.plotly_chart(fig_receita_vendedores)
+        st.metric('Receita', formata_numero(dados['Preço'].sum(), 'R$'))
+        fig_receita_vendedores = px.bar(vendedores[['sum']].sort_values('sum', ascending = False).head(qtd_vendedores),
+                                        x = 'sum',
+                                        y = vendedores[['sum']].sort_values('sum', ascending = False).head(qtd_vendedores).index,
+                                        text_auto = True,
+                                        title = f'Top {qtd_vendedores} vendedores (receita)')
+        st.plotly_chart(fig_receita_vendedores, use_container_width = True)
     with coluna2:
-        st.metric("Quantidade vendas", formata_numero(dados.shape[0]))
-        st.metric("Receita", formata_numero(dados["Preço"].sum(), "R$"))
-        fig_vendas_vendedores = px.bar(vendedores[["count"]].sort_values("count", ascending=False).head(qtd_vendedores),
-                                       x="count",
-                                       y=vendedores[["count"]].sort_values("count", ascending=False).head(qtd_vendedores).index,
-                                       text_auto=True,
-                                       title= f'Top {qtd_vendedores} vendedores (Quantidade de vendas)')
-        st.plotly_chart(fig_vendas_vendedores)
-      
+        st.metric('Quantidade de vendas', formata_numero(dados.shape[0]))
+        fig_vendas_vendedores = px.bar(vendedores[['count']].sort_values('count', ascending = False).head(qtd_vendedores),
+                                        x = 'count',
+                                        y = vendedores[['count']].sort_values('count', ascending = False).head(qtd_vendedores).index,
+                                        text_auto = True,
+                                        title = f'Top {qtd_vendedores} vendedores (quantidade de vendas)')
+        st.plotly_chart(fig_vendas_vendedores, use_container_width = True)
+         
 
 
 
